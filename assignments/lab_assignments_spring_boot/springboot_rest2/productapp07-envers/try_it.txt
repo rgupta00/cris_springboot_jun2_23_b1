@@ -1,0 +1,2 @@
+http://localhost:8090/productsorted?fieldName=price
+http://localhost:8090/productpagesorted?offset=20&pagesize=10&fieldName=price
