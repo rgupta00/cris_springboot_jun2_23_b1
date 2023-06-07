@@ -13,9 +13,8 @@ public class ProductServiceImpl implements ProductService{
 
 	private ProductDao productDao;
 	
-	
 	@Autowired
-	public ProductServiceImpl(ProductDao productDao) {
+	public void setProductDao(ProductDao productDao) {
 		this.productDao = productDao;
 	}
 

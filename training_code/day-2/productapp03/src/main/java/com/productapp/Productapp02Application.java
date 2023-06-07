@@ -1,5 +1,7 @@
 package com.productapp;
-
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ public class Productapp02Application implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
+		
 		productDao.save(new Product("Laptop", new BigDecimal(78000)));
 		productDao.save(new Product("Laptop cool pad", new BigDecimal(2000)));
 		System.out.println("--------------------------");

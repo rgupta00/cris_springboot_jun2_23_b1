@@ -32,9 +32,6 @@ public class ProductController {
 	@GetMapping(path = "products")
 	// @RequestMapping(path = "products")
 	public List<Product> getAll() {
-		if(1==1) {
-			throw new RuntimeException();
-		}
 		return productService.getProducts();
 	}
 
