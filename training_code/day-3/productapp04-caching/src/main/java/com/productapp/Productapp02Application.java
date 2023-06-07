@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.productapp.dao.Product;
 import com.productapp.dao.ProductDao;
@@ -16,6 +18,9 @@ import io.swagger.v3.oas.annotations.info.Info;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 
+@EnableScheduling
+
+@EnableCaching
 @OpenAPIDefinition
 (info = @Info(title = "Product API", version = "2.0" , 
 description = "CRIS API"))

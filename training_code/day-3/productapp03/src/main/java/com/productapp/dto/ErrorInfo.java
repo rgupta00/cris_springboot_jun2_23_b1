@@ -3,7 +3,7 @@ package com.productapp.dto;
 
 import java.time.LocalDateTime;
 
-public class EorrorInfo {
+public class ErrorInfo {
 	private String errorMessage;
 	private String statusCode;
 	private LocalDateTime dateTime;
@@ -32,14 +32,14 @@ public class EorrorInfo {
 	public void setToContact(String toContact) {
 		this.toContact = toContact;
 	}
-	public EorrorInfo(String errorMessage, String statusCode, LocalDateTime dateTime, String toContact) {
+	public ErrorInfo(String errorMessage, String statusCode, LocalDateTime dateTime, String toContact) {
 		super();
 		this.errorMessage = errorMessage;
 		this.statusCode = statusCode;
 		this.dateTime = dateTime;
 		this.toContact = toContact;
 	}
-	public EorrorInfo() {
+	public ErrorInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
