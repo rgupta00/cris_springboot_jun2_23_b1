@@ -325,12 +325,6 @@ public interface DepartmentRepo extends JpaRepository<Department, Integer>{
 }
 
 
-
-
-@Query("SELECT new com.demo.dto.DeptEmpResponse(d.dname, e.name, e.salary) 
-		FROM Department d INNER JOIN d.employees e")
-	List<DeptEmpResponse> deptEmployeeInformation();
-
 @Repository
 public interface EmployeeRepo extends JpaRepository<Employee, Integer>{
 	@Query("SELECT e FROM Employee e WHERE e.eid IN (:eid)")
