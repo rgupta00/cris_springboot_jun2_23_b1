@@ -1,0 +1,275 @@
+1.Recap of all annoation
+2. Spring boot profile
+3. Spring boot actuator application monitoring
+4. Spring MVC with out boot
+5. Spring data Quaries , Pagination 
+6. Spring boot joins
+	one to one
+	one to many
+	many to many
+7. Spring security
+
+Bank application
+
+crisvalationation.properties
+
+
+2 type of bean :IB + BB
+@Bean vs @Component
+
+Config
+com.productapp.web.config
+
+Controller
+com.productapp.web.api
+
+filter
+com.productapp.web.filter
+
+interceptor
+com.productapp.web.interceptor
+
+repo
+com.productapp.repo
+
+hib related entities
+com.productapp.entities
+
+service layer
+com.productapp.service
+com.productapp.service.impl
+
+dto classes
+com.productapp.dto
+
+some utils: helper classes
+com.productapp.util
+
+
+All Anntation discussion A-Z
+--------------------------------
+
+Anno on repo layer
+----------------
+
+
+Anno for Entity and valiataion:
+----------------------------
+
+@Entity
+@Table(name = "products")
+public class Product {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "product_id",nullable = false)
+	private Integer product_id;
+
+	
+	@Column(name = "product_name",nullable = false)
+	@NotEmpty(message = "{product.name.absent}")
+	private String name;
+	
+	@Column(name = "product_price",nullable = false)
+	@NotNull(message = "{product.price.absent}")
+	@Range(min=10, max = 10000000, message = "{account.price.invalid}")
+	private BigDecimal price;
+	
+	
+	@NotEmpty(message = "product type must not be empty")
+	@Column(name = "product_type",nullable = false)
+	
+
+
+
+Annotation on repo
+-------------------
+@Repository
+
+Note: by default repo are transacational
+Note: @Repository on Repo is optional
+
+
+
+
+Anno on service layer
+----------------
+@Service
+@Transactional
+
+
+
+Anno on controller layer
+----------------
+
+@RestController// @Controller+ @ResponseBody
+@RequestMapping(path = "produtapi")
+
+
+
+@RequestMapping(path = "products")
+//@GetMapping(path = "products")
+public List<Product> getAll2() {
+		List<Product> products = productService.getProducts();
+		return products;
+}
+	
+
+@GetMapping(path = "products/{id}")
+public Product getById(@PathVariable(name="id")  int id) {
+		return productService.getById(id);
+	}
+	
+@PostMapping(path = "products")
+public Product addProduct(@Valid   @RequestBody  Product product) {
+		return productService.addProduct(product);	
+}
+	
+	@PutMapping(path = "products/{id}")
+	public Product updateProduct(@PathVariable(name="id")  int id, @RequestBody    Product product) {
+		return productService.updateProduct(id, product);
+	}
+	
+	@DeleteMapping(path = "products/{id}")
+	//@RequestMapping(path = "products/{id}", method = RequestMethod.DELETE)
+	public Product deleteProductById(@PathVariable int id) {
+		return productService.deleteProduct(id);
+	}
+	
+}
+
+
+
+
+
+							controller---------service	-----	dao
+							
+							
+							
+@RestController// @Controller+ @ResponseBody
+
+@ResponseBody: trigger jakson parser to convert java to json
+
+
+	@GetMapping vs @RequestMapping
+	
+	@RequestMapping: old annoation
+		can be applied on class level as well as method level
+		
+		
+	@GetMapping/@Put/@Post/@Delete/@Patch
+	
+	Why i should not use post for updatation
+	
+	JSP/ Rest
+	
+	Idempotency*
+	
+	prg design pattern double form submit problem*
+	
+	
+	
+	
+Annotation for ex handling
+------------------------
+@RestControllerAdvice
+public class ProductExhandlerApi {
+
+	//handler to handle PNFE
+	@ExceptionHandler(ProductNotFoundException.class)
+	public ErrorInfo handle404(ProductNotFoundException ex) {
+		ErrorInfo info=new ErrorInfo();
+		info.setDateTime(LocalDateTime.now());
+		info.setErrorMessage(ex.getMessage());
+		info.setStatusCode(HttpStatus.NOT_FOUND.toString());
+		info.setToContact("raj@info.com");
+		
+		return info;
+		
+	}
+	
+	//MethodArgumentNotValidException
+	
+	@ResponseStatus(code=HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ErrorInfo handle400(MethodArgumentNotValidException ex) {
+		
+		String errorInfoString= ex.getBindingResult()
+				.getAllErrors()
+				.stream()
+				.map(e->e.getDefaultMessage())
+				.collect(Collectors.joining(" ,"));
+		
+				
+				
+		ErrorInfo info=new ErrorInfo();
+	
+		info.setDateTime(LocalDateTime.now());
+		info.setErrorMessage(errorInfoString);
+		info.setStatusCode(HttpStatus.BAD_REQUEST.toString());
+		info.setToContact("raj@info.com");
+		
+		return info;
+		
+	}
+	
+//	@ResponseStatus(code=HttpStatus.INTERNAL_SERVER_ERROR)
+//	@ExceptionHandler(Exception.class)
+//	public ErrorInfo handle500(Exception ex) {
+//		ErrorInfo info=new ErrorInfo();
+//		info.setDateTime(LocalDateTime.now());
+//		//log4j 
+//		info.setErrorMessage("pls try after some time");
+//		info.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+//		info.setToContact("raj@info.com");
+//		
+//		return info;
+//		
+//	}
+	
+}
+
+	
+
+What is @SpringBootApplication=@SpringBootConfiguration+ @EnableAutoConfiguration+ @ComponentScan
+
+
+	@EnableAspectJAutoProxy
+	@Enablexx
+	
+	
+	
+	How to spring profile
+	------------------------
+	
+	1. create a hello world project
+	
+	2. create application-dev.properties
+	...
+	
+	and put some values 
+	
+	and try to access them in a controller
+	
+	@RestController
+public class HelloController {
+
+	@Value("${my.info}")
+	private String info;
+	
+	@GetMapping(path = "hello")
+	public String hello() {
+		return "hello to all  cris chams! "+info;
+		
+	}
+}
+
+
+we wnat to change port/profile dynamically
+
+u need to run mvn  " clean package" 
+
+then run the jar from cmd
+
+	
+	java -jar demojar1.3.11.jar --spring.profiles.active=test --server.port=6799
