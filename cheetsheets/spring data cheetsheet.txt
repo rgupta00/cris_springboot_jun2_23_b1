@@ -443,6 +443,8 @@ Problem: recursion :
 Solving Infinite Recursion using @JsonManagedReference and @JsonBackReference
 ---------------------------------------------------------------------
 
+@JsonIgnore
+
 	 @JsonManagedReference:
 			 is used on the OneToMany side 
 			 it is the forward part of the mapping/reference and the data gets serialized normally.
@@ -677,11 +679,14 @@ Spring boot data configuration:
 
 step 1:
 -----------
-jdbc.drivername=com.mysql.cj.jdbc.Driver
-jdbc.url=jdbc:mysql://localhost:3306/youtubedb
-jdbc.username=root
-jdbc.password=root
+spring.datasource.url=jdbc:mysql://localhost:3306/cris1?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name= com.mysql.jdbc.Driver
+#spring.jpa.hibernate.ddl-auto=create-drop
 
+spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL5InnoDBDialect
+spring.jpa.hibernate.ddl-auto= update
 
 step 2:
 -------------

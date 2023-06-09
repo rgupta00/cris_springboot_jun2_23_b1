@@ -3,11 +3,21 @@ package com.empapp.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Project {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "project_table")
+public class Project {
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int projectId;
 	private String projectName;
 
+	@ManyToMany
 	private List<Employee> employees = new ArrayList<Employee>();
 
 	public int getProjectId() {
